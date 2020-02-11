@@ -1,0 +1,110 @@
+{% extends "includes/base.html" %}
+
+{% block path %}
+
+<section id="path1" class="content-section text-center">
+        <div class="container">
+                <!-- Styles -->
+            <style>
+            #chartdiv {
+              width: 100%;
+            height:540px;
+            }
+            </style>
+
+            <!-- Resources -->
+            <script src="https://www.amcharts.com/lib/4/core.js"></script>
+            <script src="https://www.amcharts.com/lib/4/charts.js"></script>
+            <script src="https://www.amcharts.com/lib/4/plugins/forceDirected.js"></script>
+            <script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+            <!-- Chart code -->
+            <script>
+
+            am4core.ready(function(chemin = {{ jsonpath |safe }}) {
+
+            // Themes begin
+            am4core.useTheme(am4themes_animated);
+            // Themes end
+
+            var chart1 = am4core.create("chartdiv1", am4plugins_forceDirected.ForceDirectedTree);
+            var networkSeries = chart1.series.push(new am4plugins_forceDirected.ForceDirectedSeries())
+
+            console.log(chemin);
+            chart1.data = [
+              {
+                name: chemin[0],
+              }
+            ];
+
+            let i=0;
+            chartdata = chart1.data[0];
+            for (i=1;i<chemin.length;i++){
+                ville =[
+                    {
+                        name: chemin[i],
+                        children: []
+                    }
+                ];
+                chartdata.children = ville;
+                chartdata = chartdata.children[0];
+            }
+            console.log(chart1.data);
+
+            networkSeries.dataFields.value = "value";
+            networkSeries.dataFields.name = "name";
+            networkSeries.dataFields.children = "children";
+            networkSeries.nodes.template.tooltipText = "{name}:{value}";
+            networkSeries.nodes.template.fillOpacity = 1;
+            networkSeries.manyBodyStrength = -20;
+            networkSeries.links.template.strength = 1;
+            networkSeries.minRadius = am4core.percent(10);
+
+            networkSeries.nodes.template.label.text = "{name}"
+            networkSeries.fontSize = 10;
+
+            }); // end am4core.ready()
+            </script>
+
+            <!-- HTML -->
+            <div id="chartdiv1"></div>
+        </div>
+</section>
+
+{% endblock %}
+
+{% block form %}
+    <section id="findpath" class="download-section content-section text-center" style="background-image:url({{ url_for('static',filename='assets/img/downloads-bg.jpg') }});">
+        <div class="container">
+            <form method="POST" action="/find">
+                <div class="col-lg-8 mx-auto">
+                    <h1>Choose Cities </h1>
+                    <p style="margin: 10px;">Departure city:</p>
+                    <div class="dropdown">
+                        <select class="btn btn-primary dropdown-toggle"  data-toggle="dropdown"  aria-expanded="false" type="button" id="source" name="source" role="menu">
+                            {% for city in cities %}
+                                <option class="dropdown-item" role="presentation"   value="{{ city[1] }}">{{ city[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <p style="margin: 10px;">Destination:</p>
+                    <div class="dropdown">
+                        <select class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" name="target" id="target" role="menu">
+                            {% for city in cities %}
+                                <option class="dropdown-item"  role="presentation"  value="{{ city[1] }}">{{ city[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <p style="margin: 10px;">Algorithme:</p>
+                    <div class="dropdown">
+                        <select class="btn btn-primary dropdown-toggle"  data-toggle="dropdown"  aria-expanded="false" type="button" id="algorithme" name="algorithme" role="menu">
+                            <option class="dropdown-item" role="presentation"   value="dijkstra">dijkstra</option>
+                            <option class="dropdown-item" role="presentation"   value="bellmanAllTargets">bellman All Targets</option>
+                            <option class="dropdown-item" role="presentation"   value="bellmanOneTarget">bellman one target</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary btn-lg btn-default" type="submit" style="margin-top: 25px;">Find Shortest Path</button></div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

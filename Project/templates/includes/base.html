@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Short Path</title>
+    <link rel="stylesheet" href={{ url_for('static',filename="assets/bootstrap/css/bootstrap.min.css") }}>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cabin:700">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+
+<body id="page-top">
+    <nav class="navbar navbar-light navbar-expand-md navbar navbar-expand-lg fixed-top" id="mainNav">
+        <div class="container"><a class="navbar-brand js-scroll-trigger" href="#">Short Path</a><button data-toggle="collapse" class="navbar-toggler navbar-toggler-right" data-target="#navbarResponsive" type="button" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"
+                value="Menu"><i class="fa fa-bars"></i></button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="nav navbar-nav ml-auto">
+                    <li class="nav-item nav-link js-scroll-trigger" role="presentation"><a class="nav-link active js-scroll-trigger" href="#about">About</a></li>
+                    <li class="nav-item nav-link js-scroll-trigger" role="presentation"><a class="nav-link js-scroll-trigger" href="#findpath">Find</a></li>
+                    <li class="nav-item nav-link js-scroll-trigger" role="presentation"><a class="nav-link js-scroll-trigger" href="#contact">contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    {% block path %}
+
+    {% endblock %}
+    <header class="masthead" style="background-image:url({{ url_for('static',filename='assets/img/intro-bg.jpg') }});">
+        <div class="intro-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-8 mx-auto">
+                        <h1 class="brand-heading">Find Short Path</h1>
+                        <p class="intro-text">Click below and choose source and target cities <br>to find the shortest path.</p><a class="btn btn-link btn-circle" role="button" href="#findpath"><i class="fa fa-angle-double-down animated"></i></a></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <section id="about" class="content-section text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2>About Short Path</h2>
+                    <p>This application realised by Dadi Anas, <br>Big Data and Cloud computing 2 &nbsp;</p>
+                    <p>2019/2020</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% block form %}
+
+    {% endblock %}
+    <section id="contact" class="content-section text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 mx-auto">
+                    <h2>Contact</h2>
+                    <p>Elève ingénieur, résponsable de la filière “Ingénieurie Informatique: Big Data et Cloud Computing 2”</p>
+                    <p> Département Mathématique  informatique  <br>Ecole Normale Supérieure de l'Enseignement Technique de Mohammedia (ENSET-M) <br>Tél: +2126 513 417 66 <br>Email: dadi.anas@hotmail.fr </p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Start: Map Clean -->
+    <div class="map-clean"><iframe allowfullscreen="" frameborder="0" src="https://www.google.com/maps/embed/v1/place?key=+&amp;q=Paris%2C+France&amp;zoom=15" width="100%" height="450"></iframe></div>
+    <!-- End: Map Clean -->
+    <footer>
+        <div class="container text-center">
+            <p>Copyright ©&nbsp;Brand 2019</p>
+        </div>
+    </footer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
+    <script src="{{ url_for('static',filename='assets/js/grayscale.js') }}"></script>
+   
+
+</body>
+
+</html>

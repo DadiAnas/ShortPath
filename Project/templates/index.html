@@ -1,0 +1,37 @@
+{% extends "includes/base.html" %}
+
+{% block form %}
+    <section id="findpath" class="download-section content-section text-center" style="background-image:url({{ url_for('static',filename='assets/img/downloads-bg.jpg') }});">
+        <div class="container">
+            <form method="POST" action="/find">
+                <div class="col-lg-8 mx-auto">
+                    <h1>Choose Cities </h1>
+                    <p style="margin: 10px;">Departure city:</p>
+                    <div class="dropdown">
+                        <select class="btn btn-primary dropdown-toggle"  data-toggle="dropdown"  aria-expanded="false" type="button" id="source" name="source" role="menu">
+                            {% for city in cities %}
+                                <option class="dropdown-item" role="presentation"   value="{{ city }}">{{ city }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <p style="margin: 10px;">Destination:</p>
+                    <div class="dropdown">
+                        <select class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" name="target" id="target" role="menu">
+                            {% for city in cities %}
+                                <option class="dropdown-item"  role="presentation"  value="{{ city }}">{{ city }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <p style="margin: 10px;">Algorithme:</p>
+                    <div class="dropdown">
+                        <select class="btn btn-primary dropdown-toggle"  data-toggle="dropdown"  aria-expanded="false" type="button" id="algorithme" name="algorithme" role="menu">
+                            <option class="dropdown-item" role="presentation"   value="dijkstra">dijkstra</option>
+                             <option class="dropdown-item" role="presentation"   value="bellmanAllTargets">bellman All Targets</option>
+                            <option class="dropdown-item" role="presentation"   value="bellmanOneTarget">bellman one target</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary btn-lg btn-default" type="submit" style="margin-top: 25px;">Find Shortest Path</button></div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

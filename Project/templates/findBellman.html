@@ -1,0 +1,112 @@
+{% extends "includes/base.html" %}
+
+{% block path %}
+
+<section id="path2" class="content-section text-center">
+        <div class="container">
+          <!-- Styles -->
+<style>
+#chartdiv {
+    background: white;
+  width: 100%;
+  height: 540px
+}
+
+</style>
+
+<!-- Resources -->
+<script src="https://www.amcharts.com/lib/4/core.js"></script>
+<script src="https://www.amcharts.com/lib/4/charts.js"></script>
+<script src="https://www.amcharts.com/lib/4/themes/animated.js"></script>
+
+<!-- Chart code -->
+<script>
+am4core.ready(function(jsonpath={{ jsonpath | safe }},jsonweights={{ jsonweights | safe }}) {
+
+// Themes begin
+am4core.useTheme(am4themes_animated);
+// Themes end
+
+var chart = am4core.create("chartdiv", am4charts.SankeyDiagram);
+chart.hiddenState.properties.opacity = 0; // this creates initial fade-in
+
+chart.data = [];
+console.log(jsonweights);
+let i = 0,j=0;
+for(j=0;j<= jsonpath.length-1;j++) {
+    for (i = 0; i <= jsonpath[j].length - 3; i++) {
+        chart.data.push({from: jsonpath[j][i], to: jsonpath[j][i + 1], value: jsonweights[j][i]});
+    }
+}
+
+
+console.log(chart.data);
+let hoverState = chart.links.template.states.create("hover");
+hoverState.properties.fillOpacity = 1;
+
+chart.dataFields.fromName = "from";
+chart.dataFields.toName = "to";
+chart.dataFields.value = "value";
+
+// for right-most label to fit
+chart.paddingRight = 30;
+
+
+// make nodes draggable
+var nodeTemplate = chart.nodes.template;
+nodeTemplate.inert = true;
+nodeTemplate.readerTitle = "Drag me!";
+nodeTemplate.showSystemTooltip = true;
+nodeTemplate.width = 20;
+
+// make nodes draggable
+var nodeTemplate = chart.nodes.template;
+nodeTemplate.readerTitle = "Click to show/hide or drag to rearrange";
+nodeTemplate.showSystemTooltip = true;
+nodeTemplate.cursorOverStyle = am4core.MouseCursorStyle.pointer
+
+}); // end am4core.ready()
+</script>
+
+<!-- HTML -->
+<div id="chartdiv"></div>
+        </div>
+</section>
+
+{% endblock %}
+
+{% block form %}
+    <section id="findpath" class="download-section content-section text-center" style="background-image:url({{ url_for('static',filename='assets/img/downloads-bg.jpg') }});">
+        <div class="container">
+            <form method="POST" action="/find">
+                <div class="col-lg-8 mx-auto">
+                    <h1>Choose Cities </h1>
+                    <p style="margin: 10px;">Departure city:</p>
+                    <div class="dropdown">
+                        <select class="btn btn-primary dropdown-toggle"  data-toggle="dropdown"  aria-expanded="false" type="button" id="source" name="source" role="menu">
+                            {% for city in cities %}
+                                <option class="dropdown-item" role="presentation"   value="{{ city[1] }}">{{ city[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <p style="margin: 10px;">Destination:</p>
+                    <div class="dropdown">
+                        <select class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-expanded="false" type="button" name="target" id="target" role="menu">
+                            {% for city in cities %}
+                                <option class="dropdown-item"  role="presentation"  value="{{ city[1] }}">{{ city[1] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <p style="margin: 10px;">Algorithme:</p>
+                    <div class="dropdown">
+                        <select class="btn btn-primary dropdown-toggle"  data-toggle="dropdown"  aria-expanded="false" type="button" id="algorithme" name="algorithme" role="menu">
+                            <option class="dropdown-item" role="presentation"   value="dijkstra">dijkstra</option>
+                             <option class="dropdown-item" role="presentation"   value="bellmanAllTargets">bellman All Targets</option>
+                            <option class="dropdown-item" role="presentation"   value="bellmanOneTarget">bellman one target</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary btn-lg btn-default" type="submit" style="margin-top: 25px;">Find Shortest Path</button></div>
+            </form>
+        </div>
+    </section>
+{% endblock %}
